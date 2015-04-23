@@ -1,0 +1,13 @@
+<h3>
+You're voting on question {{ question.id }}
+</h3>
+<p>
+{{ question.question_text }}
+<p>
+<form action="">
+    {% for choice in question.choice_set.all %}
+        <input type="radio" name="vote" value="choice.id">{{ choice.choice_text }}</input>
+    {% endfor %}
+</form>
+
+
