@@ -32,10 +32,15 @@ class ResultsView(generic.DetailView):
     model = Question
     template_name = 'polls/results.html'
 
+    def get_queryset(self):
+        """
+        Excludes any questions that aren't published yet.
+        """
+        return Question.objects.filter(pub_date__lte=timezone.now())
+
 def vote(request, question_id):
     model = Question
-    template_name = 'polls/vote.html'
-    p = get_object_or_404(Question, pk=question_id)
+    p = get_object_or_404(model, pk=question_id)
     try:
         selected_choice = p.choice_set.get(pk=request.POST['choice'])
     except (KeyError, Choice.DoesNotExist):
